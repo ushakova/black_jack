@@ -20,22 +20,14 @@ class Game
 
   def add_entities
     add_user
-    add_dealer
-    add_bank
+    @dealer = Dealer.new
+    @bank = Bank.new
   end
 
   def add_user
     puts 'Enter name:'
     name = gets.chomp
     @user = User.new(name)
-  end
-
-  def add_dealer
-    @dealer = Dealer.new
-  end
-
-  def add_bank
-    @bank = Bank.new
   end
 
   def make_bets
