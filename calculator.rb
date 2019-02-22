@@ -23,8 +23,16 @@ class Calculator
     bank.balance -= amount
   end
 
+  def total_score(player)
+    player.hand.total_score
+  end
+
+  def lose?(player)
+    player.hand.lose?
+  end
+
   def draw?
-    (user.lose? && dealer.lose?) || (user.score == dealer.score)
+    (lose?(user) && lose?(dealer)) || (total_score(user) == total_score(dealer))
   end
 
   def draw
@@ -34,6 +42,8 @@ class Calculator
   end
 
   def winner
-    @winner ||= dealer.lose? || user.score > dealer.score ? user : dealer
+    @winner ||= begin
+     lose?(dealer) || total_score(user) > total_score(dealer) ? user : dealer
+   end
   end
 end

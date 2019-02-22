@@ -1,4 +1,6 @@
 class Game
+  attr_reader :interface
+
   def initialize
     add_entities
   end
@@ -7,10 +9,10 @@ class Game
     deal_cards
     make_bets
     loop do
-      puts 'Your cards:'
-      @user.show_cards
+      @interface.users_cards
+      @user.hand.show_cards
       choose_action
-      @dealer.make_move(cards_opened: @user.cards_were_opened)
+      @dealer.make_move(cards_opened: @user.hand.cards_were_opened)
       puts Calculator.new(@user, @dealer, @bank).calculate if game_over?
       break if game_over?
     end
@@ -19,14 +21,14 @@ class Game
   private
 
   def add_entities
-    add_user
+    @interface = Interface.new
     @dealer = Dealer.new
     @bank = Bank.new
+    add_user
   end
 
   def add_user
-    puts 'Enter name:'
-    name = gets.chomp
+    name = @interface.enter_name
     @user = User.new(name)
   end
 
@@ -39,28 +41,25 @@ class Game
   end
 
   def choose_action
-    puts '1. Skip turn'
-    puts '2. Open cards'
-    puts '3. Take one more card' if @user.can_take_more_cards?
-    choise = gets.to_i
+    choise = @interface.show_available_actions(@user.hand.can_take_more_cards?)
     make_move(choise)
   end
 
   def make_move(choise)
     case choise
     when 1 then return
-    when 2 then @user.open_cards
+    when 2 then @user.hand.open_cards
     when 3 then @dealer.give_card(@user)
     else choose_action
     end
-    @user.open_cards if no_more_turns?
+    @user.hand.open_cards if no_more_turns?
   end
 
   def game_over?
-    @user.cards_were_opened
+    @user.hand.cards_were_opened
   end
 
   def no_more_turns?
-    !@user.can_take_more_cards?
+    !@user.hand.can_take_more_cards?
   end
 end

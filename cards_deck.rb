@@ -23,7 +23,7 @@ class CardsDeck
         cards << Card.new(suit, value)
       end
 
-      Card::SCORES.each_key do |value|
+      Card::PICTURES.each do |value|
         cards << Card.new(suit, value)
       end
     end

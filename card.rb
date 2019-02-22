@@ -1,16 +1,12 @@
 class Card
-  attr_accessor :suit, :value, :score
+  attr_accessor :suit, :value
 
   SUITS = %w[♠ ♥ ♣ ♦].freeze
-  SCORES = { jack: 10,
-             queen: 10,
-             king: 10,
-             ace: 1 }.freeze
+  PICTURES = %i[jack queen king ace].freeze
 
   def initialize(suit, value)
     @suit = suit
     @value = value
-    @score = SCORES.key?(value) ? SCORES[value] : value.to_i
   end
 
   def ace?

@@ -1,7 +1,7 @@
 class Dealer < Player
   def initialize
     @cards_deck = CardsDeck.new
-    @cards = []
+    @hand = Hand.new
     @balance = 100
   end
 
@@ -11,15 +11,15 @@ class Dealer < Player
   end
 
   def give_card(player)
-    return unless player.can_take_more_cards?
+    return unless player.hand.can_take_more_cards?
 
-    player.cards << @cards_deck.take_card
+    player.hand.take_card(@cards_deck.take_card)
   end
 
   def make_move(cards_opened: nil)
-    show_cards && return if cards_opened
-    return if score > 17
+    hand.show_cards && return if cards_opened
+    return if hand.total_score > 17
 
-    give_card(self) if can_take_more_cards?
+    give_card(self) if hand.can_take_more_cards?
   end
 end
