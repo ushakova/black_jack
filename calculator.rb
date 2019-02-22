@@ -18,9 +18,9 @@ class Calculator
 
   attr_reader :user, :dealer, :bank
 
-  def give_money(player, _amount)
-    player.balance += bank.balance
-    bank.balance = 0
+  def give_money(player, amount)
+    player.balance += amount
+    bank.balance -= amount
   end
 
   def draw?
