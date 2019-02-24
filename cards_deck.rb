@@ -5,14 +5,13 @@ class CardsDeck
   def initialize
     @cards = []
     add_all_cards
+    cards.shuffle!
   end
 
   def take_card
     raise EmptyDeck if cards.size.zero?
 
-    card = cards[rand(cards.size)]
-    cards.delete(card)
-    card
+    cards.pop
   end
 
   private

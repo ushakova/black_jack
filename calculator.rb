@@ -3,47 +3,39 @@ class Calculator
     @user = user
     @dealer = dealer
     @bank = bank
+    @scores = { user => user.hand.total_score, dealer => dealer.hand.total_score }
+    @losers = { user => user.hand.lose?, dealer => dealer.hand.lose? }
   end
 
   def calculate
     if draw?
       draw
     else
-      give_money(winner, bank.balance)
+      bank.give_money(winner, bank.balance)
       "#{winner.name} wins!"
     end
   end
 
   private
 
-  attr_reader :user, :dealer, :bank
-
-  def give_money(player, amount)
-    player.balance += amount
-    bank.balance -= amount
-  end
-
-  def total_score(player)
-    player.hand.total_score
-  end
-
-  def lose?(player)
-    player.hand.lose?
-  end
+  attr_reader :user, :dealer, :bank, :scores, :losers
 
   def draw?
-    (lose?(user) && lose?(dealer)) || (total_score(user) == total_score(dealer))
+    (losers[user] && losers[dealer]) ||
+      (scores[user] == scores[dealer])
   end
 
   def draw
     amount = bank.balance / 2
-    [user, dealer].each { |player| give_money(player, amount) }
+    [user, dealer].each { |player| bank.give_money(player, amount) }
     'Draw!'
   end
 
   def winner
     @winner ||= begin
-     lose?(dealer) || total_score(user) > total_score(dealer) ? user : dealer
+      not_lost = losers.reject { |k, v| v }
+      max_score = not_lost.size == 1 ? not_lost.first : scores.max_by { |k, v| v }
+      max_score.first
    end
   end
 end

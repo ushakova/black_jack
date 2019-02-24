@@ -25,12 +25,10 @@ class Hand
   end
 
   def total_score
-    @total_score ||= begin
-      sum = 0
-      cards.each_value { |v| sum += card_score(v) }
-      sum += 10 if cards.keys.find(&:ace?) && (sum <= 11)
-      sum
-    end
+    sum = 0
+    cards.each_value { |v| sum += card_score(v) }
+    sum += 10 if cards.keys.find(&:ace?) && (sum <= 11)
+    sum
   end
 
   def lose?

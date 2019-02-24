@@ -1,10 +1,6 @@
 class Interface
-  def users_cards
-    puts 'Your cards:'
-  end
-
-  def dealers_cards
-    puts 'Dealers cards:'
+  def players_cards(player)
+    puts "#{player.name}'s cards:"
   end
 
   def enter_name

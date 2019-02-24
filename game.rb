@@ -12,7 +12,7 @@ class Game
     deal_cards
     make_bets
     loop do
-      @interface.users_cards
+      @interface.players_cards(@user)
       @user.hand.show_cards
       choose_action
       dealers_move
@@ -25,7 +25,7 @@ class Game
 
   def add_user
     name = @interface.enter_name
-    @user = User.new(name)
+    @user = Player.new(name)
   end
 
   def make_bets
@@ -52,13 +52,13 @@ class Game
   end
 
   def open_cards
-    @interface.users_cards
+    @interface.players_cards(@user)
     @user.hand.open_cards
     @interface.next_line
   end
 
   def dealers_move
-    @interface.dealers_cards if game_over?
+    @interface.players_cards(@dealer) if game_over?
     @dealer.make_move(cards_opened: game_over?)
     @interface.next_line
   end

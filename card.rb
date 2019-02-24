@@ -2,7 +2,7 @@ class Card
   attr_accessor :suit, :value
 
   SUITS = %w[♠ ♥ ♣ ♦].freeze
-  PICTURES = %i[A Q K A].freeze
+  PICTURES = %i[J Q K A].freeze
 
   def initialize(suit, value)
     @suit = suit
