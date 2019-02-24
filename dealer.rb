@@ -1,5 +1,6 @@
 class Dealer < Player
   def initialize
+    @name = 'Dealer'
     @cards_deck = CardsDeck.new
     @hand = Hand.new
     @balance = 100

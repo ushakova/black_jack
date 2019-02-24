@@ -19,7 +19,7 @@ class CardsDeck
 
   def add_all_cards
     Card::SUITS.each do |suit|
-      ('2'..'9').each do |value|
+      ('2'..'10').each do |value|
         cards << Card.new(suit, value)
       end
 

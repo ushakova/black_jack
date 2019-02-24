@@ -2,7 +2,10 @@ class Game
   attr_reader :interface
 
   def initialize
-    add_entities
+    @interface = Interface.new
+    @dealer = Dealer.new
+    @bank = Bank.new
+    add_user
   end
 
   def play_game
@@ -12,20 +15,13 @@ class Game
       @interface.users_cards
       @user.hand.show_cards
       choose_action
-      @dealer.make_move(cards_opened: @user.hand.cards_were_opened)
-      puts Calculator.new(@user, @dealer, @bank).calculate if game_over?
+      dealers_move
+      @interface.show_result(@user, @dealer, @bank) if game_over?
       break if game_over?
     end
   end
 
   private
-
-  def add_entities
-    @interface = Interface.new
-    @dealer = Dealer.new
-    @bank = Bank.new
-    add_user
-  end
 
   def add_user
     name = @interface.enter_name
@@ -48,11 +44,23 @@ class Game
   def make_move(choise)
     case choise
     when 1 then return
-    when 2 then @user.hand.open_cards
+    when 2 then open_cards
     when 3 then @dealer.give_card(@user)
     else choose_action
     end
-    @user.hand.open_cards if no_more_turns?
+    open_cards if no_more_turns?
+  end
+
+  def open_cards
+    @interface.users_cards
+    @user.hand.open_cards
+    @interface.next_line
+  end
+
+  def dealers_move
+    @interface.dealers_cards if game_over?
+    @dealer.make_move(cards_opened: game_over?)
+    @interface.next_line
   end
 
   def game_over?

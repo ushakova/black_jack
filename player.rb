@@ -1,6 +1,6 @@
 class NotEnoughMoneyError < RuntimeError; end
 class Player
-  attr_accessor :balance, :cards, :hand
+  attr_accessor :balance, :cards, :hand, :name
 
   def make_bet(bank)
     raise NotEnoughMoneyError if balance < 10

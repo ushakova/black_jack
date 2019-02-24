@@ -10,7 +10,7 @@ class Calculator
       draw
     else
       give_money(winner, bank.balance)
-      "#{winner} wins!"
+      "#{winner.name} wins!"
     end
   end
 

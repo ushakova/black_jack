@@ -1,10 +1,7 @@
 class Hand
   attr_accessor :cards, :cards_were_opened
 
-  SCORES = { jack: 10,
-             queen: 10,
-             king: 10,
-             ace: 1 }.freeze
+  SCORES = { J: 10, Q: 10, K: 10, A: 1 }.freeze
 
   def initialize
     @cards = {}
@@ -17,7 +14,6 @@ class Hand
 
   def show_cards
     cards.each_key(&:show_card)
-    puts
   end
 
   def take_card(card)
